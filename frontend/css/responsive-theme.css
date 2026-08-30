@@ -1,0 +1,49 @@
+/* Navigation Styles */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: var(--hover-bg);
+  color: var(--primary-btn);
+}
+
+/* Mobile Dropdown Menu */
+.nav-dropdown {
+  display: none;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .nav-links {
+    display: none; /* Hide horizontal links on mobile */
+  }
+  .nav-dropdown {
+    display: block; /* Show dropdown menu on mobile */
+  }
+}
