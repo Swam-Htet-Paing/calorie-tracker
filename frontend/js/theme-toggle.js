@@ -28,3 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+// Dynamic Active Tab Highlighting
+document.addEventListener('DOMContentLoaded', () => {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    
+    const href = link.getAttribute('href');
+    
+    // Check for root path "/" or matching file names
+    if (
+      (currentPath === '/' && href === '/') ||
+      (currentPath === '/index.html' && href === '/') ||
+      (href !== '/' && currentPath.endsWith(href))
+    ) {
+      link.classList.add('active');
+    }
+  });
+});

@@ -4,74 +4,160 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BMI Calculator - Calorie Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/responsive-theme.css">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style1.css">
 </head>
 <body>
+
   <div class="container">
     <header class="nav-container">
-      <h1>BMI</h1>
+      <div class="brand">
+        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <h1>Tracker</h1>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="/banner.html">Home</a></li>
+        <li><a href="/">Log</a></li>
+        <li><a href="/bmi.html">BMI</a></li>
+        <li><a href="/exercise.html">Workouts</a></li>
+      </ul>
 
-        <!-- Desktop Navigation -->
-        <ul class="nav-links">
-          <li><a href="/">Log</a></li>
-          <li><a href="/bmi.html">BMI</a></li>
-          <li><a href="/exercise.html">Workouts</a></li>
-          <li><a href="/banner.html">About</a></li>
-        </ul>
+      <div class="user-profile-widget">
+        <img id="user-avatar" src="" alt="Avatar" class="user-avatar" style="cursor: pointer;" title="Click to view/change avatar">
+        <span id="user-display-name" class="user-name"></span>
+        <button id="logout-btn" class="logout-btn" title="Logout">✕</button>
+      </div>
 
-        <!-- Mobile Dropdown Navigation -->
-        <select class="nav-dropdown" onchange="window.location.href=this.value;">
-          <option value="/">Log</option>
-          <option value="/bmi.html">BMI</option>
-          <option value="/exercise.html">Workouts</option>
-          <option value="/banner.html">About</option>
-        </select>
-
-      <button class="theme-toggle-btn" aria-label="Toggle Theme"></button>
+      <button class="theme-toggle-btn" aria-label="Toggle Theme">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
     </header>
 
-    <div class="card">
-      <div class="form-group">
-        <input type="number" id="bmi-weight" placeholder="Weight (kg)">
-        <input type="number" id="bmi-height" placeholder="Height (cm)">
-      </div>
-      <button id="calc-bmi-btn" style="width: 100%; margin-top: 10px;">Calculate BMI</button>
-    </div>
+    <main class="main-content-bmi">
+      <div class="neo-dashboard">
+        <div class="dash-header">
+          <div class="title-group">
+            <h1>HealthMetrics<span>360</span></h1>
+            <p>Interactive Body Mass Index Analysis</p>
+          </div>
 
-    <div class="card hidden" id="bmi-result-card">
-      <h3>Your Score</h3>
-      <p style="font-size: 2rem; font-weight: bold; margin: 10px 0;" id="bmi-score">0</p>
-      <p id="bmi-category" style="font-weight: bold;"></p>
+          <div class="switch-pill">
+            <button type="button" id="btnMetric" class="switch-btn active" onclick="setUnitSystem('metric')">Metric</button>
+            <button type="button" id="btnImperial" class="switch-btn" onclick="setUnitSystem('imperial')">Imperial</button>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="panel controls-panel">
+            <div class="control-row">
+              <label>Sex Target</label>
+              <div class="gender-toggle">
+                <button class="g-btn active" onclick="setGender('male', this)">Male</button>
+                <button class="g-btn" onclick="setGender('female', this)">Female</button>
+              </div>
+            </div>
+
+            <div id="metricGroup">
+              <div class="control-row">
+                <div class="label-box">
+                  <span>Height</span>
+                  <span class="highlight"><span id="valCm">175</span> <small>cm</small></span>
+                </div>
+                <input type="range" id="sliderCm" min="120" max="220" value="175" class="neo-slider">
+              </div>
+
+              <div class="control-row">
+                <div class="label-box">
+                  <span>Weight</span>
+                  <span class="highlight"><span id="valKg">70</span> <small>kg</small></span>
+                </div>
+                <input type="range" id="sliderKg" min="30" max="180" value="70" class="neo-slider">
+              </div>
+            </div>
+
+            <div id="imperialGroup" class="hidden">
+              <div class="control-row">
+                <div class="label-box">
+                  <span>Height</span>
+                  <span class="highlight"><span id="valFt">5</span><small>ft</small> <span id="valIn">9</span><small>in</small></span>
+                </div>
+                <div class="dual-range">
+                  <input type="range" id="sliderFt" min="3" max="7" value="5" class="neo-slider">
+                  <input type="range" id="sliderIn" min="0" max="11" value="9" class="neo-slider">
+                </div>
+              </div>
+
+              <div class="control-row">
+                <div class="label-box">
+                  <span>Weight</span>
+                  <span class="highlight"><span id="valLbs">154</span> <small>lbs</small></span>
+                </div>
+                <input type="range" id="sliderLbs" min="70" max="400" value="154" class="neo-slider">
+              </div>
+            </div>
+
+            <div class="control-row">
+              <div class="label-box">
+                <span>Age</span>
+                <span class="highlight"><span id="valAge">25</span> <small>yrs</small></span>
+              </div>
+              <input type="range" id="sliderAge" min="10" max="100" value="25" class="neo-slider">
+            </div>
+          </div>
+
+          <div class="panel analytics-panel">
+            <div class="radial-container">
+              <svg class="radial-svg" viewBox="0 0 160 160">
+                <circle class="circle-bg" cx="80" cy="80" r="65"></circle>
+                <circle class="circle-progress" id="circleProgress" cx="80" cy="80" r="65"></circle>
+              </svg>
+              <div class="radial-content">
+                <span class="radial-sub">BMI INDEX</span>
+                <span class="radial-score" id="bmiScore">22.9</span>
+                <span class="radial-status" id="bmiStatus">Normal</span>
+              </div>
+            </div>
+
+            <div class="stats-matrix">
+              <div class="stat-card">
+                <span class="stat-title">Target Weight</span>
+                <span class="stat-value" id="targetWeight">56.7 - 76.6 kg</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-title">Ponderal Index</span>
+                <span class="stat-value" id="ponderalIndex">13.1 kg/m³</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="avatar-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button id="close-avatar-modal" class="modal-close">✕</button>
+      <h3>Profile Picture</h3>
+      <div class="modal-avatar-wrapper">
+        <img id="modal-avatar-preview" src="" alt="Enlarged Avatar">
+      </div>
+      <div class="modal-actions">
+        <label for="update-avatar-input" class="custom-file-upload">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Change Picture
+        </label>
+        <input type="file" id="update-avatar-input" accept="image/*" class="file-input-hidden">
+      </div>
     </div>
   </div>
 
   <script src="../js/theme-toggle.js"></script>
-  <script>
-    document.getElementById('calc-bmi-btn').addEventListener('click', () => {
-      const w = parseFloat(document.getElementById('bmi-weight').value);
-      const h = parseFloat(document.getElementById('bmi-height').value) / 100;
-      const resultCard = document.getElementById('bmi-result-card');
-      const scoreEl = document.getElementById('bmi-score');
-      const categoryEl = document.getElementById('bmi-category');
-
-      if (!w || !h || w <= 0 || h <= 0) return;
-
-      const bmi = (w / (h * h)).toFixed(1);
-      scoreEl.textContent = bmi;
-
-      let category = '';
-      let color = '';
-
-      if (bmi < 18.5) { category = 'Underweight'; color = '#ffc107'; }
-      else if (bmi < 24.9) { category = 'Normal weight'; color = '#28a745'; }
-      else if (bmi < 29.9) { category = 'Overweight'; color = '#fd7e14'; }
-      else { category = 'Obese'; color = '#dc3545'; }
-
-      categoryEl.textContent = category;
-      categoryEl.style.color = color;
-      resultCard.classList.remove('hidden');
-    });
-  </script>
+  <script src="../js/index.js"></script>
+  <script src="../js/script.js"></script>
 </body>
 </html>

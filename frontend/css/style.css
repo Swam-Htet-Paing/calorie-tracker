@@ -42,10 +42,28 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  padding: 40px 20px;
+  padding: 0px 20px;
   display: flex;
   justify-content: center;
   min-height: 100vh;
+}
+
+/* Core shared header layout */
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Fix banner page alignment override */
+body.banner-page .banner-nav {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 /* Container & Grid Layout */
