@@ -34,6 +34,72 @@
       height: 100%;
       border: 0;
     }
+
+    /* Calorie Table Styles */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    .calorie-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      border: 1px solid var(--border-color, #c0c0c0);
+    }
+    .calorie-table th, 
+    .calorie-table td {
+      border: 1px solid var(--border-color, #d3d3d3);
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .calorie-table thead th {
+      background-color: #2b5b88;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .calorie-table tbody tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+    .calorie-table tbody tr:nth-child(odd) {
+      background-color: transparent;
+    }
+    .table-title {
+      color: var(--text-color, #0d47a1);
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    /* Tab Controls for Tables */
+    .table-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .table-tab-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--border-color, #ccc);
+      background: var(--card-bg, #fff);
+      color: var(--text-color, #333);
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .table-tab-btn.active {
+      background: #2b5b88;
+      color: #fff;
+      border-color: #2b5b88;
+    }
+    .tab-btn.active {
+      background: #2b5b88;
+      color: #fff;
+      border-color: #2b5b88;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -41,7 +107,6 @@
     <header class="nav-container">
       <h1>Workouts</h1>
 
-      <!-- Desktop Navigation -->
       <ul class="nav-links">
         <li><a href="/">Log</a></li>
         <li><a href="/bmi.html">BMI</a></li>
@@ -49,7 +114,6 @@
         <li><a href="/banner.html">About</a></li>
       </ul>
 
-      <!-- Mobile Dropdown Navigation -->
       <select class="nav-dropdown" onchange="window.location.href=this.value;">
         <option value="/">Log</option>
         <option value="/bmi.html">BMI</option>
@@ -75,6 +139,73 @@
         </iframe>
       </div>
     </div>
+
+    <div class="card">
+      <div class="table-tabs">
+        <button class="table-tab-btn active" onclick="switchTable('table-exercises', this)">Common Exercises</button>
+        <button class="table-tab-btn" onclick="switchTable('table-workouts', this)">Common Workouts</button>
+      </div>
+
+      <div id="table-exercises" class="tab-content active">
+        <div class="table-title">Calories Burned from Common Exercises:</div>
+        <div class="table-wrapper">
+          <table class="calorie-table">
+            <thead>
+              <tr>
+                <th>Activity (1 hour)</th>
+                <th>125 lb person</th>
+                <th>155 lb person</th>
+                <th>185 lb person</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Golf (using cart)</td><td>198</td><td>246</td><td>294</td></tr>
+              <tr><td>Walking (3.5 mph)</td><td>215</td><td>267</td><td>319</td></tr>
+              <tr><td>Kayaking</td><td>283</td><td>352</td><td>420</td></tr>
+              <tr><td>Softball/Baseball</td><td>289</td><td>359</td><td>428</td></tr>
+              <tr><td>Swimming (free-style, moderate)</td><td>397</td><td>492</td><td>587</td></tr>
+              <tr><td>Tennis (general)</td><td>397</td><td>492</td><td>587</td></tr>
+              <tr><td>Running (9 minute mile)</td><td>624</td><td>773</td><td>923</td></tr>
+              <tr><td>Bicycling (12-14 mph, moderate)</td><td>454</td><td>562</td><td>671</td></tr>
+              <tr><td>Football (general)</td><td>399</td><td>494</td><td>588</td></tr>
+              <tr><td>Basketball (general)</td><td>340</td><td>422</td><td>503</td></tr>
+              <tr><td>Soccer (general)</td><td>397</td><td>492</td><td>587</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="table-workouts" class="tab-content">
+        <div class="table-title">Calories Burned from Common Workouts (Per 1 Hour):</div>
+        <div class="table-wrapper">
+          <table class="calorie-table">
+            <thead>
+              <tr>
+                <th>Workout (1 hour)</th>
+                <th>125 lb person</th>
+                <th>155 lb person</th>
+                <th>185 lb person</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Bodyweight (Basic Circuit)</td><td>228</td><td>282</td><td>336</td></tr>
+              <tr><td>Push-Ups (Moderate Pace)</td><td>288</td><td>357</td><td>426</td></tr>
+              <tr><td>Sit-Ups / Crunches</td><td>240</td><td>298</td><td>356</td></tr>
+              <tr><td>Squats (Bodyweight)</td><td>294</td><td>365</td><td>436</td></tr>
+              <tr><td>Lunges</td><td>272</td><td>338</td><td>404</td></tr>
+              <tr><td>Plank</td><td>190</td><td>236</td><td>282</td></tr>
+              <tr><td>Burpees (Moderate Pace)</td><td>444</td><td>551</td><td>657</td></tr>
+              <tr><td>Jump Rope (Moderate Pace)</td><td>525</td><td>652</td><td>778</td></tr>
+              <tr><td>Dumbbell Strength Training</td><td>364</td><td>452</td><td>540</td></tr>
+              <tr><td>HIIT (High Intensity Interval Training)</td><td>562</td><td>698</td><td>833</td></tr>
+              <tr><td>Yoga (Hatha / Vinyasa)</td><td>216</td><td>269</td><td>321</td></tr>
+              <tr><td>Pilates</td><td>204</td><td>253</td><td>302</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="../js/theme-toggle.js"></script>
@@ -90,6 +221,13 @@
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('youtube-frame').src = videos[cat];
+    }
+
+    function switchTable(tableId, btn) {
+      document.querySelectorAll('.table-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tableId).classList.add('active');
     }
   </script>
 </body>
