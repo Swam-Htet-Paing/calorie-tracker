@@ -1,5 +1,4 @@
 const API_BASE_URL = '/api';
-// const API_BASE_URL = 'http://localhost:5000/api';
 
 let isRegister = false;
 
@@ -16,12 +15,12 @@ const authSuccess = document.getElementById('auth-success');
 const toggleAuthBtn = document.getElementById('toggle-auth-btn');
 const toggleMsg = document.getElementById('toggle-msg');
 
-toggleAuthBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  isRegister = !isRegister;
+// Function to switch form UI mode
+function setAuthMode(registerMode) {
+  isRegister = registerMode;
   authError.textContent = '';
   authSuccess.textContent = '';
-  
+
   if (isRegister) {
     authTitle.textContent = 'Create Account';
     usernameInput.classList.remove('hidden');
@@ -39,6 +38,18 @@ toggleAuthBtn.addEventListener('click', (e) => {
     toggleMsg.textContent = "Don't have an account?";
     toggleAuthBtn.textContent = 'Register';
   }
+}
+
+// Check URL query params on page load
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'register') {
+  setAuthMode(true);
+}
+
+// Toggle button handler
+toggleAuthBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  setAuthMode(!isRegister);
 });
 
 // Convert image to Base64 String
@@ -83,16 +94,16 @@ authForm.addEventListener('submit', async (e) => {
     if (!res.ok) throw new Error(data.error || 'Authentication failed');
 
     if (isRegister) {
-      // Force user to log in after registration
+      // Switch back to login state after registration
       authSuccess.textContent = 'Account created successfully! Please log in.';
-      toggleAuthBtn.click();
+      setAuthMode(false);
       emailInput.value = payload.email;
       passwordInput.value = '';
     } else {
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
       localStorage.setItem('avatar', data.avatar);
-      window.location.href = '/';
+      window.location.href = '/dashboard.html';
     }
   } catch (err) {
     authError.textContent = err.message;

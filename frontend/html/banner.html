@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About - Calorie Tracker</title>
+  <title>About - KiloLog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,122 +13,84 @@
 </head>
 <body class="banner-page">
 
-  <!-- Navbar placed directly in body -->
-  <header class="nav-container banner-nav">
-    <div class="brand">
-      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      <h1>Tracker</h1>
-    </div>
-    
-    <ul class="nav-links">
-  <li><a href="/banner.html">Home</a></li>
-  <li><a href="/">Log</a></li>
-  <li><a href="/bmi.html">BMI</a></li>
-  <li><a href="/exercise.html">Workouts</a></li>
-</ul>
-
-    <div class="user-profile-widget">
-      <img id="user-avatar" src="" alt="Avatar" class="user-avatar" style="cursor: pointer;" title="Click to view/change avatar">
-      <span id="user-display-name" class="user-name"></span>
-      <button id="logout-btn" class="logout-btn" title="Logout">✕</button>
-    </div>
-
-    <button class="theme-toggle-btn" aria-label="Toggle Theme">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-  </header>
-
   <!-- Full-screen hero section -->
   <section class="tracker-banner">
     <div class="banner-overlay"></div>
     
     <div class="banner-container">
+      <!-- Left Hero Copy -->
       <div class="banner-content">
-        <span class="badge">Daily Fitness Partner</span>
+        <!-- Replaced "Daily Fitness Partner" badge with KiloLog Logo + Text -->
+        <div class="badge brand-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" class="brand-badge-icon">
+            <defs>
+              <linearGradient id="kilolog-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00F2FE" />
+                <stop offset="100%" stop-color="#00F5D4" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <circle cx="60" cy="60" r="25" fill="#0B0D12" />
+            <g transform="translate(25, 25)">
+              <circle cx="35" cy="35" r="30" fill="none" stroke="#1A2130" stroke-width="6" />
+              <path d="M 35 5 A 30 30 0 1 1 8.2 20" fill="none" stroke="url(#kilolog-grad)" stroke-width="6" stroke-linecap="round" filter="url(#glow)" />
+              <path d="M 27 20 L 27 50 M 27 35 L 43 20 M 27 35 L 43 50" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+              <circle cx="43" cy="20" r="3.5" fill="#00F5D4" />
+            </g>
+          </svg>
+          <span>KiloLog</span>
+        </div>
+
         <h1>Fuel Your Body Right</h1>
         <p>Track your daily meals, monitor your target calories, and reach your fitness goals effortlessly.</p>
         
         <div class="banner-cta-group">
-          <a href="/" class="btn btn-primary">Get Started</a>
+          <a href="/login.html?mode=register" class="btn btn-primary">Get Started</a>
           <a href="/login.html" class="btn btn-secondary">Login</a>
         </div>
       </div>
 
+      <!-- Right Glass Card (Unclickable hoverable dashboard preview) -->
       <div class="banner-card">
-        <h3>Today's Progress</h3>
-        
-        <div class="progress-box">
-          <div class="stat">
-            <span class="stat-value" id="total-calories">0</span>
-            <span class="stat-label">Consumed (calories)</span>
+        <div class="card-header">
+          <h3>Quick Dashboard</h3>
+          <span class="live-pill">Overview</span>
+        </div>
+        <p class="launcher-desc">Daily logging tools and personal health metrics.</p>
+
+        <div class="quick-nav-grid">
+          <div class="nav-tile">
+            <div class="tile-icon">⚡</div>
+            <div class="tile-info">
+              <strong>Log Meals</strong>
+              <span>Track intake & macros</span>
+            </div>
           </div>
-          <div class="stat">
-            <span class="stat-value" id="goal-calories">2,000</span>
-            <span class="stat-label">Daily Goal</span>
+
+          <div class="nav-tile">
+            <div class="tile-icon">⚖️</div>
+            <div class="tile-info">
+              <strong>BMI & Metrics</strong>
+              <span>Check body composition</span>
+            </div>
+          </div>
+
+          <div class="nav-tile">
+            <div class="tile-icon">🔥</div>
+            <div class="tile-info">
+              <strong>Workouts</strong>
+              <span>Log active calories burned</span>
+            </div>
           </div>
         </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progress-bar"></div>
-        </div>
-
-        <ul class="meal-list" id="meal-list"></ul>
       </div>
     </div>
   </section>
 
-  <!-- Avatar Modal -->
-  <div id="avatar-modal" class="modal-overlay hidden">
-    <div class="modal-card">
-      <button id="close-avatar-modal" class="modal-close">✕</button>
-      <h3>Profile Picture</h3>
-      <div class="modal-avatar-wrapper">
-        <img id="modal-avatar-preview" src="" alt="Enlarged Avatar">
-      </div>
-      <div class="modal-actions">
-        <label for="update-avatar-input" class="custom-file-upload">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          Change Picture
-        </label>
-        <input type="file" id="update-avatar-input" accept="image/*" class="file-input-hidden">
-      </div>
-    </div>
-  </div>
-
   <script src="../js/theme-toggle.js"></script>
   <script src="../js/index.js"></script>
-  <script>
-    let total = 0;
-    const goal = 2000;
-
-    function addCalories() {
-      const nameInput = document.getElementById('meal-name');
-      const calInput = document.getElementById('meal-calories');
-      const totalDisplay = document.getElementById('total-calories');
-      const progressBar = document.getElementById('progress-bar');
-      const mealList = document.getElementById('meal-list');
-
-      const name = nameInput.value.trim();
-      const calories = parseInt(calInput.value);
-
-      if (name === '' || isNaN(calories) || calories <= 0) {
-        alert('Please enter a valid meal name and calorie amount.');
-        return;
-      }
-
-      total += calories;
-      totalDisplay.innerText = total.toLocaleString();
-
-      const percentage = Math.min((total / goal) * 100, 100);
-      progressBar.style.width = percentage + '%';
-
-      const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${name}</span> <strong>+${calories} calories</strong>`;
-      mealList.prepend(listItem);
-
-      nameInput.value = '';
-      calInput.value = '';
-    }
-  </script>
 </body>
 </html>

@@ -19,8 +19,8 @@ mongoose.connect(process.env.MONGO_URI)
 
 // --- Auth Middleware ---
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+const authHeader = req.headers['authorization'];
+const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) return res.status(401).json({ error: 'Access denied. Token missing.' });
 
@@ -37,11 +37,22 @@ app.use(express.static(frontendPath));
 app.use(express.static(path.join(frontendPath, 'html')));
 
 // --- Page Routes ---
-app.get('/', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'index.html')));
+// --- Page Routes ---
+// Serve banner.html as the root home page
+app.get('/', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'banner.html')));
+
+// Route for the main logging interface
+app.get('/dashboard.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'dashboard.html')));
+
 app.get('/login.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'login.html')));
 app.get('/bmi.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'bmi.html')));
 app.get('/exercise.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'exercise.html')));
 app.get('/banner.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'banner.html')));
+// app.get('/', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'dashboard.html')));
+// app.get('/login.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'login.html')));
+// app.get('/bmi.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'bmi.html')));
+// app.get('/exercise.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'exercise.html')));
+// app.get('/banner.html', (req, res) => res.sendFile(path.join(frontendPath, 'html', 'banner.html')));
 
 // --- Auth API Routes ---
 app.post('/api/auth/register', async (req, res) => {

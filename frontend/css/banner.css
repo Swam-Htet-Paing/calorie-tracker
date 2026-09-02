@@ -1,10 +1,18 @@
 :root {
-  --primary-color: #2ecc71;
-  --primary-hover: #27ae60;
-  --bg-dark: #101828;
+  --primary-color: #00f2fe;
+  --primary-hover: #00f5d4;
+  --bg-dark: #0b0d12;
   --text-light: #ffffff;
+  --text-muted: #94a3b8;
   --border-radius-sm: 8px;
-  --border-radius-lg: 16px;
+  --border-radius-lg: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body.banner-page {
@@ -13,48 +21,25 @@ body.banner-page {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--bg-dark);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.banner-nav {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 20px 0 20px;
-}
-
-.tracker-banner,
-.input-group,
-.progress-box,
-.stat,
-.meal-list li {
-  display: flex;
-}
-
+/* Hero Section */
 .tracker-banner {
   position: relative;
   width: 100%;
-  flex: 1;
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
+  display: flex;
   align-items: center;
   justify-content: center;
   background: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
   padding: 40px 20px;
-  margin-top: 15px;
 }
 
 .banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(16, 24, 40, 0.85), rgba(16, 24, 40, 0.65));
+  background: linear-gradient(135deg, rgba(11, 13, 18, 0.88), rgba(11, 13, 18, 0.72));
   z-index: 1;
 }
 
@@ -69,156 +54,43 @@ body.banner-page {
   align-items: center;
 }
 
+/* Left Column Styling */
 .banner-content {
   color: var(--text-light);
 }
 
-.badge {
-  display: inline-block;
-  background-color: rgba(46, 204, 113, 0.2);
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 242, 254, 0.08);
   color: var(--primary-color);
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  border: 1px solid rgba(46, 204, 113, 0.4);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.brand-badge-icon {
+  width: 22px;
+  height: 22px;
 }
 
 .banner-content h1 {
   font-size: 3rem;
   line-height: 1.2;
   margin-bottom: 16px;
+  font-weight: 700;
 }
 
 .banner-content p {
   font-size: 1.1rem;
-  color: #d0d5dd;
+  color: #cbd5e1;
   margin-bottom: 28px;
-}
-
-.quick-tracker {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.input-group {
-  gap: 10px;
-}
-
-.input-group input {
-  padding: 12px 16px;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius-sm);
-  outline: none;
-  font-size: 0.95rem;
-}
-
-.input-group input[type="text"] { flex: 2; }
-.input-group input[type="number"] { flex: 1; }
-
-.input-group input:focus {
-  border-color: var(--primary-color);
-}
-
-.input-group button {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  border: none;
-  padding: 12px 20px;
-  border-radius: var(--border-radius-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.input-group button:hover {
-  background-color: var(--primary-hover);
-}
-
-.banner-card {
-  background: var(--text-light);
-  border-radius: var(--border-radius-lg);
-  padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.banner-card h3 {
-  color: #1d2939;
-  font-size: 1.25rem;
-  margin-bottom: 20px;
-}
-
-.progress-box {
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.stat {
-  flex-direction: column;
-}
-
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--bg-dark);
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  color: #667085;
-}
-
-.progress-bar-container {
-  height: 10px;
-  background-color: #eaecf0;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.progress-bar {
-  width: 0%;
-  height: 100%;
-  background-color: var(--primary-color);
-  transition: width 0.4s ease;
-}
-
-.meal-list {
-  list-style: none;
-  max-height: 140px;
-  overflow-y: auto;
-  border-top: 1px solid #f2f4f7;
-  padding-top: 12px;
-}
-
-.meal-list li {
-  justify-content: space-between;
-  padding: 8px 0;
-  font-size: 0.9rem;
-  color: #344054;
-  border-bottom: 1px dashed #f2f4f7;
-}
-
-.meal-list li strong {
-  color: var(--primary-color);
-}
-
-@media (max-width: 900px) {
-  .banner-container {
-    grid-template-columns: 1fr;
-  }
-
-  .banner-content h1 {
-    font-size: 2.2rem;
-  }
-
-  .input-group {
-    flex-direction: column;
-  }
+  line-height: 1.5;
 }
 
 .banner-cta-group {
@@ -242,9 +114,9 @@ body.banner-page {
 
 .banner-cta-group .btn-primary {
   background-color: var(--primary-color);
-  color: var(--text-light);
+  color: #0b0d12;
   border: 2px solid var(--primary-color);
-  box-shadow: 0 4px 14px rgba(46, 204, 113, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 242, 254, 0.3);
 }
 
 .banner-cta-group .btn-primary:hover {
@@ -254,16 +126,113 @@ body.banner-page {
 }
 
 .banner-cta-group .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
   color: var(--text-light);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
 }
 
 .banner-cta-group .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
+}
+
+/* Glassmorphism Right Banner Card */
+.banner-card {
+  background: rgba(17, 24, 39, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-lg);
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.banner-card h3 {
+  color: var(--text-light);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.live-pill {
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--primary-color);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.launcher-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+/* Unclickable Hoverable Tiles */
+.quick-nav-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 14px 16px;
+  border-radius: 14px;
+  cursor: default;
+  transition: all 0.25s ease;
+}
+
+.nav-tile:hover {
+  background: rgba(0, 242, 254, 0.08);
+  border-color: rgba(0, 242, 254, 0.4);
+  transform: translateX(6px);
+}
+
+.tile-icon {
+  font-size: 1.4rem;
+}
+
+.tile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-info strong {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.tile-info span {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .banner-container {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-content h1 {
+    font-size: 2.2rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -275,4 +244,28 @@ body.banner-page {
   .banner-cta-group .btn {
     width: 100%;
   }
+}
+
+/* Clean, Unboxed & Enlarged Logo Display */
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.brand-badge-icon {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.4));
+}
+
+.brand-badge span {
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }

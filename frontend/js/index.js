@@ -1,8 +1,11 @@
 const API_BASE_URL = '/api';
-// const API_BASE_URL = 'http://localhost:5000/api';
 const token = localStorage.getItem('token');
 
-if (!token) {
+// Allow public access to landing page & login page
+const currentPath = window.location.pathname;
+const isPublicPage = currentPath === '/' || currentPath === '/banner.html' || currentPath === '/login.html';
+
+if (!token && !isPublicPage) {
   window.location.href = '/login.html';
 }
 
@@ -30,9 +33,12 @@ if (logDatePicker && !logDatePicker.value) {
   logDatePicker.value = getTodayDateString();
 }
 
+// Only trigger user data fetches if authenticated
 document.addEventListener('DOMContentLoaded', () => {
-  loadUserProfile();
-  fetchTodaysLogs();
+  if (token) {
+    loadUserProfile();
+    fetchTodaysLogs();
+  }
 });
 
 if (logDatePicker) {
@@ -41,6 +47,8 @@ if (logDatePicker) {
 
 // Fetch Profile info
 async function loadUserProfile() {
+  if (!token) return;
+
   try {
     const res = await fetch(`${API_BASE_URL}/auth/me`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -52,8 +60,10 @@ async function loadUserProfile() {
     if (userNameEl) userNameEl.textContent = data.username;
     if (userAvatarEl) userAvatarEl.src = data.avatar;
   } catch (err) {
-    localStorage.clear();
-    window.location.href = '/login.html';
+    if (!isPublicPage) {
+      localStorage.clear();
+      window.location.href = '/login.html';
+    }
   }
 }
 
@@ -67,6 +77,8 @@ if (logoutBtn) {
 
 // Fetch logs with Auth Header
 async function fetchTodaysLogs() {
+  if (!token || !calorieLog) return;
+
   const selectedDate = logDatePicker ? logDatePicker.value : getTodayDateString();
   
   try {
@@ -75,8 +87,10 @@ async function fetchTodaysLogs() {
     });
 
     if (response.status === 401 || response.status === 403) {
-      localStorage.clear();
-      window.location.href = '/login.html';
+      if (!isPublicPage) {
+        localStorage.clear();
+        window.location.href = '/login.html';
+      }
       return;
     }
 
@@ -89,93 +103,100 @@ async function fetchTodaysLogs() {
       total += log.calories;
     });
 
-    totalCaloriesEl.textContent = total;
+    if (totalCaloriesEl) totalCaloriesEl.textContent = total;
   } catch (error) {
     console.error('Error fetching logs:', error);
   }
 }
 
 // Search USDA Food
-searchBtn.addEventListener('click', async () => {
-  const query = foodInput.value.trim();
-  if (!query) return;
+if (searchBtn) {
+  searchBtn.addEventListener('click', async () => {
+    const query = foodInput ? foodInput.value.trim() : '';
+    if (!query) return;
 
-  searchResults.innerHTML = '<li>Loading...</li>';
+    if (searchResults) searchResults.innerHTML = '<li>Loading...</li>';
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/foods/search?query=${encodeURIComponent(query)}`);
-    const data = await response.json();
-    searchResults.innerHTML = '';
+    try {
+      const response = await fetch(`${API_BASE_URL}/foods/search?query=${encodeURIComponent(query)}`);
+      const data = await response.json();
+      if (searchResults) searchResults.innerHTML = '';
 
-    if (!data.foods || data.foods.length === 0) {
-      searchResults.innerHTML = '<li>No foods found.</li>';
-      return;
-    }
+      if (!data.foods || data.foods.length === 0) {
+        if (searchResults) searchResults.innerHTML = '<li>No foods found.</li>';
+        return;
+      }
 
-    data.foods.forEach(food => {
-      const energyNutrient = food.foodNutrients.find(
-        n => n.nutrientId === 1008 || n.nutrientName === 'Energy'
-      );
-      const caloriesPer100g = energyNutrient ? energyNutrient.value : 0;
+      data.foods.forEach(food => {
+        const energyNutrient = food.foodNutrients.find(
+          n => n.nutrientId === 1008 || n.nutrientName === 'Energy'
+        );
+        const caloriesPer100g = energyNutrient ? energyNutrient.value : 0;
 
-      const li = document.createElement('li');
-      li.textContent = `${food.description} (${caloriesPer100g} kcal / 100g)`;
+        const li = document.createElement('li');
+        li.textContent = `${food.description} (${caloriesPer100g} kcal / 100g)`;
 
-      li.addEventListener('click', () => {
-        selectedFood = { description: food.description, calsPer100g: caloriesPer100g };
-        selectedFoodName.textContent = selectedFood.description;
-        portionCard.classList.remove('hidden');
+        li.addEventListener('click', () => {
+          selectedFood = { description: food.description, calsPer100g: caloriesPer100g };
+          if (selectedFoodName) selectedFoodName.textContent = selectedFood.description;
+          if (portionCard) portionCard.classList.remove('hidden');
+        });
+
+        if (searchResults) searchResults.appendChild(li);
       });
-
-      searchResults.appendChild(li);
-    });
-  } catch (error) {
-    searchResults.innerHTML = '<li>Error connecting to backend server.</li>';
-  }
-});
+    } catch (error) {
+      if (searchResults) searchResults.innerHTML = '<li>Error connecting to backend server.</li>';
+    }
+  });
+}
 
 // Save portion log with Auth Header
-addBtn.addEventListener('click', async () => {
-  const weight = parseFloat(weightInput.value);
-  if (!selectedFood || isNaN(weight) || weight <= 0) return;
+if (addBtn) {
+  addBtn.addEventListener('click', async () => {
+    const weight = weightInput ? parseFloat(weightInput.value) : 0;
+    if (!selectedFood || isNaN(weight) || weight <= 0) return;
 
-  const calculatedCalories = Math.round((selectedFood.calsPer100g * weight) / 100);
-  const selectedDate = logDatePicker ? logDatePicker.value : getTodayDateString();
+    const calculatedCalories = Math.round((selectedFood.calsPer100g * weight) / 100);
+    const selectedDate = logDatePicker ? logDatePicker.value : getTodayDateString();
 
-  const logPayload = {
-    foodName: selectedFood.description,
-    weightGrams: weight,
-    calories: calculatedCalories,
-    date: selectedDate
-  };
+    const logPayload = {
+      foodName: selectedFood.description,
+      weightGrams: weight,
+      calories: calculatedCalories,
+      date: selectedDate
+    };
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/logs`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(logPayload)
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/logs`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(logPayload)
+      });
 
-    if (response.ok) {
-      const savedLog = await response.json();
-      renderLogItem(savedLog._id, savedLog.foodName, savedLog.weightGrams, savedLog.calories);
+      if (response.ok) {
+        const savedLog = await response.json();
+        renderLogItem(savedLog._id, savedLog.foodName, savedLog.weightGrams, savedLog.calories);
 
-      const currentTotal = parseInt(totalCaloriesEl.textContent) || 0;
-      totalCaloriesEl.textContent = currentTotal + calculatedCalories;
+        if (totalCaloriesEl) {
+          const currentTotal = parseInt(totalCaloriesEl.textContent) || 0;
+          totalCaloriesEl.textContent = currentTotal + calculatedCalories;
+        }
 
-      portionCard.classList.add('hidden');
-      searchResults.innerHTML = '';
-      foodInput.value = '';
+        if (portionCard) portionCard.classList.add('hidden');
+        if (searchResults) searchResults.innerHTML = '';
+        if (foodInput) foodInput.value = '';
+      }
+    } catch (error) {
+      console.error('Failed to save log:', error);
     }
-  } catch (error) {
-    console.error('Failed to save log:', error);
-  }
-});
+  });
+}
 
 function renderLogItem(id, foodName, weight, calories) {
+  if (!calorieLog) return;
   const li = document.createElement('li');
   li.dataset.id = id;
 
@@ -202,32 +223,32 @@ async function deleteLogItem(id, calories) {
       const itemToRemove = document.querySelector(`li[data-id="${id}"]`);
       if (itemToRemove) itemToRemove.remove();
 
-      const currentTotal = parseInt(totalCaloriesEl.textContent) || 0;
-      totalCaloriesEl.textContent = Math.max(0, currentTotal - calories);
+      if (totalCaloriesEl) {
+        const currentTotal = parseInt(totalCaloriesEl.textContent) || 0;
+        totalCaloriesEl.textContent = Math.max(0, currentTotal - calories);
+      }
     }
   } catch (error) {
     console.error('Failed to delete item:', error);
   }
 }
 
-// Add Modal DOM references at top of index.js
+// Avatar Modal Logic
 const avatarModal = document.getElementById('avatar-modal');
 const closeAvatarModal = document.getElementById('close-avatar-modal');
 const modalAvatarPreview = document.getElementById('modal-avatar-preview');
 const updateAvatarInput = document.getElementById('update-avatar-input');
 
-// Open Modal when clicking user avatar in navbar
 if (userAvatarEl) {
   userAvatarEl.addEventListener('click', () => {
     if (modalAvatarPreview && userAvatarEl.src) {
       modalAvatarPreview.src = userAvatarEl.src;
     }
-    avatarModal.classList.remove('hidden');
+    if (avatarModal) avatarModal.classList.remove('hidden');
   });
 }
 
-// Close Modal handlers
-if (closeAvatarModal) {
+if (closeAvatarModal && avatarModal) {
   closeAvatarModal.addEventListener('click', () => avatarModal.classList.add('hidden'));
 }
 
@@ -237,7 +258,6 @@ if (avatarModal) {
   });
 }
 
-// Convert File to Base64
 const convertFileToBase64 = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -245,7 +265,6 @@ const convertFileToBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
-// Upload new avatar directly from modal
 if (updateAvatarInput) {
   updateAvatarInput.addEventListener('change', async () => {
     if (!updateAvatarInput.files || !updateAvatarInput.files[0]) return;
@@ -266,9 +285,8 @@ if (updateAvatarInput) {
 
       const data = await res.json();
       
-      // Update local view states instantly
-      userAvatarEl.src = data.avatar;
-      modalAvatarPreview.src = data.avatar;
+      if (userAvatarEl) userAvatarEl.src = data.avatar;
+      if (modalAvatarPreview) modalAvatarPreview.src = data.avatar;
       localStorage.setItem('avatar', data.avatar);
       
       updateAvatarInput.value = '';

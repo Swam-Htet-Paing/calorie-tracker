@@ -1,100 +1,282 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Calorie Tracker</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/responsive-theme.css">
+
   <link rel="stylesheet" href="../css/style.css">
+
 </head>
+
 <body>
+
   <div class="container">
+
     <header class="nav-container">
+
       <div class="brand">
-        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        <h1>Tracker</h1>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="15%">
+
+  <defs>
+
+    <!-- Accent Gradient -->
+
+    <linearGradient id="kilolog-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+
+      <stop offset="0%" stop-color="#00F2FE" />
+
+      <stop offset="100%" stop-color="#00F5D4" />
+
+    </linearGradient>
+
+
+
+    <!-- Subtle Glow Effect -->
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+
+      <feGaussianBlur stdDeviation="4" result="blur" />
+
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+
+    </filter>
+
+  </defs>
+
+
+
+  <!-- Circular Dark Background Canvas -->
+
+  <circle cx="60" cy="60" r="25" fill="#0B0D12" />
+
+
+
+  <!-- LOGO MARK ONLY -->
+
+  <g transform="translate(25, 25)">
+
+    <!-- Outer Track Ring -->
+
+    <circle cx="35" cy="35" r="30" fill="none" stroke="#1A2130" stroke-width="6" />
+
+
+
+    <!-- Progress Arc (Representing Analytics / Calorie Balance) -->
+
+    <path d="M 35 5 A 30 30 0 1 1 8.2 20"
+
+          fill="none"
+
+          stroke="url(#kilolog-grad)"
+
+          stroke-width="6"
+
+          stroke-linecap="round"
+
+          filter="url(#glow)" />
+
+
+
+    <!-- Central "K" Monogram (Stylized as Scale / Graph Spike) -->
+
+    <path d="M 27 20 L 27 50 M 27 35 L 43 20 M 27 35 L 43 50"
+
+          fill="none"
+
+          stroke="#FFFFFF"
+
+          stroke-width="5"
+
+          stroke-linecap="round"
+
+          stroke-linejoin="round" />
+
+         
+
+    <!-- Accent Log Node -->
+
+    <circle cx="43" cy="20" r="3.5" fill="#00F5D4" />
+
+  </g>
+
+</svg>
+
+        <h1>KiloLog</h1>
+
       </div>
-      
+
+     
+
       <ul class="nav-links">
-  <li><a href="/banner.html">Home</a></li>
-  <li><a href="/">Log</a></li>
+
+  <li><a href="/dashboard.html">Log</a></li>
+
   <li><a href="/bmi.html">BMI</a></li>
+
   <li><a href="/exercise.html">Workouts</a></li>
+
 </ul>
 
+
+
       <div class="user-profile-widget">
+
         <img id="user-avatar" src="" alt="Avatar" class="user-avatar" style="cursor: pointer;" title="Click to view/change avatar">
+
         <span id="user-display-name" class="user-name"></span>
-        <button id="logout-btn" class="logout-btn" title="Logout">✕</button>
+
+        <button id="logout-btn" class="logout-btn" title="Logout">Log Out</button>
+
       </div>
+
+
 
       <button class="theme-toggle-btn" aria-label="Toggle Theme">
+
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+
       </button>
+
     </header>
 
+
+
     <main class="main-content">
+
       <div class="card log-card">
+
         <div class="card-header">
+
           <h2>Daily Log</h2>
+
           <input type="date" id="log-date-picker" class="date-picker">
+
         </div>
+
         <ul id="calorie-log" class="log-list"></ul>
+
         <div class="total-container">
+
           <span class="total-label">Total Calories</span>
+
           <div class="total-value">
+
             <span id="total-calories">0</span>
+
             <span class="unit">kcal</span>
+
           </div>
+
         </div>
+
       </div>
+
+
 
       <div class="right-column">
+
         <div class="card search-card">
+
           <h2>Search Food</h2>
+
           <div class="form-group">
+
             <input type="text" id="food-input" placeholder="e.g., Apple, Chicken Breast">
+
             <button id="search-btn">Search</button>
+
           </div>
+
           <ul id="search-results" class="results-list"></ul>
+
         </div>
+
+
 
         <div class="card portion-card hidden" id="portion-card">
+
           <h3>Add Portion</h3>
+
           <p id="selected-food-name" class="food-highlight"></p>
+
           <div class="form-group">
+
             <div class="input-wrapper">
+
               <input type="number" id="weight-input" placeholder="Weight" value="100">
+
               <span class="input-unit">g</span>
+
             </div>
+
             <button id="add-btn">Add to Log</button>
+
           </div>
+
         </div>
+
       </div>
+
     </main>
+
   </div>
+
+
 
   <div id="avatar-modal" class="modal-overlay hidden">
+
     <div class="modal-card">
+
       <button id="close-avatar-modal" class="modal-close">✕</button>
+
       <h3>Profile Picture</h3>
+
       <div class="modal-avatar-wrapper">
+
         <img id="modal-avatar-preview" src="" alt="Enlarged Avatar">
+
       </div>
+
       <div class="modal-actions">
+
         <label for="update-avatar-input" class="custom-file-upload">
+
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+
           Change Picture
+
         </label>
+
         <input type="file" id="update-avatar-input" accept="image/*" class="file-input-hidden">
+
       </div>
+
     </div>
+
   </div>
 
+
+
   <script src="../js/theme-toggle.js"></script>
+
   <script src="../js/index.js"></script>
+
 </body>
-</html>
+
+</html> 
+
