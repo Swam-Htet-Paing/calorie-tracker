@@ -1,4 +1,4 @@
-const API_BASE_URL = '/api';
+const API_BASE_URL = 'https://calorie-tracker-2kkf.onrender.com';
 const token = localStorage.getItem('token');
 
 // Allow public access to landing page & login page
