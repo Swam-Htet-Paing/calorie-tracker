@@ -1,4 +1,5 @@
-const API_BASE_URL = 'https://calorie-tracker-2kkf.onrender.com';
+const API_BASE_URL = '/api';
+// const API_BASE_URL = 'https://calorie-tracker-2kkf.onrender.com/';
 const token = localStorage.getItem('token');
 
 // Allow public access to landing page & login page
@@ -33,8 +34,24 @@ if (logDatePicker && !logDatePicker.value) {
   logDatePicker.value = getTodayDateString();
 }
 
-// Only trigger user data fetches if authenticated
+// Mobile/Tablet Dropdown Navigation Handler
 document.addEventListener('DOMContentLoaded', () => {
+  const navDropdown = document.querySelector('.nav-dropdown');
+  if (navDropdown) {
+    // Set selected option based on current page URL
+    const options = Array.from(navDropdown.options);
+    const activeOption = options.find(opt => currentPath.endsWith(opt.value));
+    if (activeOption) {
+      navDropdown.value = activeOption.value;
+    }
+
+    navDropdown.addEventListener('change', (e) => {
+      if (e.target.value) {
+        window.location.href = e.target.value;
+      }
+    });
+  }
+
   if (token) {
     loadUserProfile();
     fetchTodaysLogs();
