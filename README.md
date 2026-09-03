@@ -19,8 +19,8 @@ Ensure you have the following installed on your computer before starting:
 Open your terminal or command prompt and clone your fork of the repository:
 
 ```bash
-git clone [https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git](https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git)
-cd YOUR-REPOSITORY-NAME
+git clone https://github.com/Swam-Htet-Paing/calorie-tracker.git
+cd calorie-tracker
 
 ```
 
