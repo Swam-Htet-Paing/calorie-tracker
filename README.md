@@ -1,4 +1,3 @@
-```markdown
 # Project Setup & Local Development Guide
 
 Follow these step-by-step instructions to clone, configure, and run this project locally on your machine.
